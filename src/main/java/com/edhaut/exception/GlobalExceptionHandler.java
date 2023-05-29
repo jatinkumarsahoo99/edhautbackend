@@ -20,6 +20,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.edhaut.common.ErrorObject;
+import com.edhaut.common.JsonResponse;
 
 
 
@@ -56,8 +57,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorObject> handleGeneralException(Exception ex, WebRequest request) {
-		
+	public ResponseEntity<JsonResponse> handleGeneralException(Exception ex, WebRequest request) {
+		JsonResponse<Object> resp = new JsonResponse<Object>();
 		ErrorObject errorObject = new ErrorObject();
 		
 		errorObject.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -66,12 +67,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		errorObject.setTimestamp(new Date());
 		
-		return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
+		resp.setCode("failed");
+    	  resp.setMessage("Something went wrong");
+    	  resp.setBody(errorObject);
+		
+		
+		return new ResponseEntity<JsonResponse>(resp, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(ItemExistsException.class)
-	public ResponseEntity<ErrorObject> handleItemExistsException(ItemExistsException ex, WebRequest request) {
-		
+	public ResponseEntity<JsonResponse> handleItemExistsException(ItemExistsException ex, WebRequest request) {
+		JsonResponse<Object> resp = new JsonResponse<Object>();
 		ErrorObject errorObject = new ErrorObject();
 		
 		errorObject.setStatusCode(HttpStatus.CONFLICT.value());
@@ -80,7 +86,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		errorObject.setTimestamp(new Date());
 		
-		return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.CONFLICT);
+		  resp.setCode("failed");
+      	  resp.setMessage("Something went wrong");
+      	  resp.setBody(errorObject);
+		
+		return new ResponseEntity<JsonResponse>(resp, HttpStatus.CONFLICT);
 	}
 	
 	@Override
@@ -88,6 +98,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 	Map<String, Object> body = new HashMap<String, Object>();
+	JsonResponse<Object> resp = new JsonResponse<Object>();
 		
 		body.put("statusCode", HttpStatus.BAD_REQUEST.value());
 		
@@ -101,7 +112,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		body.put("timestamp", new Date());
 		
-		return new ResponseEntity<Object>(body, HttpStatus.BAD_REQUEST);
+		  resp.setCode("failed");
+      	  resp.setMessage("Something went wrong");
+      	  resp.setBody(body);
+		
+		return new ResponseEntity<Object>(resp, HttpStatus.BAD_REQUEST);
 	}
 }
 
