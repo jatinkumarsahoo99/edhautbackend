@@ -3,12 +3,14 @@ package com.edhaut.mysql.entity;
 import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -26,11 +28,11 @@ import lombok.NoArgsConstructor;
 public class StudentAnswerChoice {
 	
 	@Id
-	/*
-	 * @GeneratedValue(generator = "uuid")
-	 * 
-	 * @GenericGenerator(name = "uuid", strategy = "uuid2")
-	 */
+
+	  @GeneratedValue(generator = "uuid")
+	  
+	  @GenericGenerator(name = "uuid", strategy = "uuid2")
+	 
 	@PersistenceContext(unitName = "entityManagerFactory")
 	@Column(name = "choiceId")
 	private String choiceId;

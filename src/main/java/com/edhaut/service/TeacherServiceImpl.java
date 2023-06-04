@@ -1,6 +1,12 @@
 package com.edhaut.service;
 
+import java.sql.Date;
+import java.text.ParseException;
+
+import java.text.SimpleDateFormat;
+
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,9 +19,11 @@ import com.edhaut.mysql.entity.ExamClassModel;
 import com.edhaut.mysql.entity.QuestionDTO;
 import com.edhaut.mysql.entity.QuestionModel;
 import com.edhaut.mysql.entity.QuestionOptionModel;
+import com.edhaut.mysql.entity.ScheduledClass;
 import com.edhaut.mysql.entity.Student;
 import com.edhaut.mysql.entity.Teacher;
 import com.edhaut.mysql.entity.TestDTO;
+import com.edhaut.mysql.repository.ScheduledClassRepo;
 import com.edhaut.mysql.repository.TeacherRepo;
 import com.edhaut.mysql.repository.TestRepository;
 
@@ -30,12 +38,16 @@ public class TeacherServiceImpl implements TeacherService {
 	 
 	 @Autowired 
 	 private TeacherRepo teacherRepo;
+	 
+	 @Autowired 
+	 private ScheduledClassRepo scheduledClassRepo;
 
 	@Override
 	public JsonResponse<Object> createQuestion(TestDTO test) {
 		 JsonResponse<Object> resp = new JsonResponse<Object>();
+		 System.out.print(test.getQuestions());
 		try {
-			
+			System.out.print(test.getQuestions());
 			String functionName = "generate_user_id_test"; 
 			String testId =
 					  jdbcTemplate.queryForObject("SELECT " + functionName + "(?, ?)", String.class,"T","E");
@@ -53,28 +65,35 @@ public class TeacherServiceImpl implements TeacherService {
 			testData.setTpotalMark(test.getTpotalMark());
 			testData.setTopic(test.getTopic());
 			testData.setExamId(testId);
+			testData.setTotalQuestion(test.getTotalQuestion());
 			
 			 List<QuestionDTO> questionDTOs = test.getQuestions();
-			 
+			 int i =0;
 			 for (QuestionDTO questionDTO : questionDTOs) {
 				 functionName = "generate_user_id_question";
-				 String questionId =
-						  jdbcTemplate.queryForObject("SELECT " + functionName + "(?, ?)", String.class,"Q","U");
+					/*
+					 * String questionId = jdbcTemplate.queryForObject("SELECT " + functionName +
+					 * "(?, ?)", String.class,"Q","U");
+					 */
 				 QuestionModel question = new QuestionModel();
 		            question.setTest(testData);
 		            question.setQuestionName(questionDTO.getQuestionText());
 		            question.setSerialNo(questionDTO.getSlNo());
-		            question.setQuestionId(questionId);
+//		            question.setQuestionId(questionId);
+		            question.setCorrectChoiceNo(questionDTO.getCorrectChoiceNo());
 
 		            List<ChoiceDTO> choiceDTOs = questionDTO.getChoices();
 		            for (ChoiceDTO choiceDTO : choiceDTOs) {
 		            	functionName = "generate_user_id_choice";
-		            	String choiceId =
-		  					  jdbcTemplate.queryForObject("SELECT " + functionName + "(?, ?)", String.class,"C","H");
+						/*
+						 * String choiceId = jdbcTemplate.queryForObject("SELECT " + functionName +
+						 * "(?, ?)", String.class,"C","H");
+						 */
 		            	QuestionOptionModel choice = new QuestionOptionModel();
 		                choice.setQuestion(question);
 		                choice.setChoiceName(choiceDTO.getChoiceText());
-		                choice.setChoiceId(choiceId);
+//		                choice.setChoiceId(choiceId);
+		                choice.setSlNo(choiceDTO.getSlNo());
 		                
 		               
 		                question.getChoices().add(choice);
@@ -105,7 +124,7 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public JsonResponse<Object> createStudent(Teacher user) {
+	public JsonResponse<Object> createTeacher(Teacher user) {
 		String values = "SET @p_email='" + user.getEmail() + "',@p_password='" + user.getPassword()
 		+ "',@p_name='" + user.getTeacherName() + "',@p_role='" + "rol002" + "';";
 
@@ -133,6 +152,7 @@ public class TeacherServiceImpl implements TeacherService {
 
 	@Override
 	public JsonResponse<List<ExamClassModel>> getAllTest() {
+
 		 JsonResponse<List<ExamClassModel>> resp = new JsonResponse<List<ExamClassModel>>();
 		 
 		 try {
@@ -145,6 +165,62 @@ public class TeacherServiceImpl implements TeacherService {
 	         resp.setMessage("Test not found");
 		 }
 		 
+		return resp;
+	}
+
+	@Override
+	public JsonResponse<Optional<Teacher>> getTeacherProfile(String teacherId) {
+		JsonResponse<Optional<Teacher>> resp = new JsonResponse<Optional<Teacher>>();
+		try {
+			Optional<Teacher> teacher = teacherRepo.findById(teacherId);
+			resp.setMessage("Data Fetched Successfully");
+			resp.setCode("success");
+	    	resp.setBody(teacher);
+		}catch(Exception e) {
+			 resp.setCode("failed");
+	         resp.setMessage("Test not found");
+		}
+		
+		return resp;
+	}
+
+	@Override
+	public JsonResponse<Object> createScheduledClass(ScheduledClass scheduledClass) {
+
+//		scheduledClass
+		JsonResponse<Object> resp = new JsonResponse<Object>();
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	
+		try {
+//			 String dateString = "2023-06-03";
+		        Date date = Date.valueOf(scheduledClass.getClassDate());
+		        scheduledClass.setClassStartDate(date);
+			scheduledClassRepo.save(scheduledClass) ;
+			  resp.setCode("sucess");
+	      	  resp.setMessage("Data saved successfully");
+		}catch(Exception e) {
+			  resp.setCode("failed");
+	      	  resp.setMessage("Something went wrong");
+		}
+		
+		return resp;
+	}
+
+	@Override
+	public JsonResponse<List<ScheduledClass>> getAllClasses(Date Date)  {
+		JsonResponse<List<ScheduledClass>> resp = new JsonResponse<List<ScheduledClass>>();
+		try {
+			List<ScheduledClass> classes = scheduledClassRepo.findByclassStartDate(Date) ;
+			resp.setCode("success");
+	    	resp.setMessage("Data Fetched Successfully");
+	    	resp.setBody(classes);
+			
+		}catch(Exception e) {
+			System.out.print(e);
+			  resp.setCode("failed");
+	      	  resp.setMessage("Something went wrong");
+//	      	resp.setBody([]);
+		}
 		return resp;
 	}
 

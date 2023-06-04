@@ -1,6 +1,7 @@
 package com.edhaut.mysql.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +16,15 @@ public class TestDTO {
 		public String getTestName() {
 		return testName;
 	}
+		public String getTotalQuestion() {
+			return totalQuestion;
+		}
 
+
+		public void setTotalQuestion(String totalQuestion) {
+			this.totalQuestion = totalQuestion;
+		}
+		private String totalQuestion;
 
 	public void setTestName(String testName) {
 		this.testName = testName;

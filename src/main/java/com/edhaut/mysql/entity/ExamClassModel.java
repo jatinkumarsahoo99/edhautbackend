@@ -2,7 +2,9 @@ package com.edhaut.mysql.entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -67,6 +69,16 @@ public class ExamClassModel {
 	
 	private String examDate;
 	
+	private String totalQuestion;
+	
+	public String getTotalQuestion() {
+		return totalQuestion;
+	}
+
+	public void setTotalQuestion(String totalQuestion) {
+		this.totalQuestion = totalQuestion;
+	}
+
 	public String getCorrectChoice() {
 		return correctChoice;
 	}

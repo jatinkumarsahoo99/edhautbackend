@@ -1,10 +1,18 @@
 package com.edhaut.mysql.entity;
 
 import java.util.List;
+import java.util.Set;
 
 public class QuestionDTO {
 	 private String questionText;
-	 public String getQuestionText() {
+	 private String correctChoiceNo;
+	 public String getCorrectChoiceNo() {
+		return correctChoiceNo;
+	}
+	public void setCorrectChoiceNo(String correctChoiceNo) {
+		this.correctChoiceNo = correctChoiceNo;
+	}
+	public String getQuestionText() {
 		return questionText;
 	}
 	public void setQuestionText(String questionText) {

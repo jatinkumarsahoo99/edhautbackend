@@ -39,7 +39,8 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public JsonResponse<Object> createStudent(Student user) {
 		String values = "SET @p_email='" + user.getEmail() + "',@p_password='" + user.getPassword()
-		+ "',@p_name='" + user.getStudentName() + "',@p_role='" + "rol001" + "';";
+		+ "',@p_name='" + user.getStudentName() + "',@p_class='" + user.getStudentClass() +
+		"',@p_classId='" + user.getStudentClassId() + "',@p_role='" + "rol001" + "';";
 
           System.out.println("VALUES" + values);
           JsonResponse<Object> resp = new JsonResponse<Object>();
@@ -145,22 +146,26 @@ public class StudentServiceImpl implements StudentService {
 			 List<AnswersheetQuestion> questionDTOs = test.getQuestions();
 			 for (AnswersheetQuestion questionDTO : questionDTOs) {
 				 functionName = "generate_user_id_studentAnswer_question";
-				 String questionId =
-						  jdbcTemplate.queryForObject("SELECT " + functionName + "(?, ?)", String.class,"Q","U");
+					/*
+					 * String questionId = jdbcTemplate.queryForObject("SELECT " + functionName +
+					 * "(?, ?)", String.class,"Q","U");
+					 */
 				 StudentAnswerQuestion question = new StudentAnswerQuestion();
 				 question.setTest(testData);
-				 question.setQuestionId(questionId);
+//				 question.setQuestionId(questionId);
 				 question.setQuestionName(questionDTO.getQuestionName());
 				 question.setSerialNo(questionDTO.getSerialNo());
 				 
 				  List<AnswerSheetChoice> choiceDTOs = questionDTO.getChoices();
 				  for (AnswerSheetChoice choiceDTO : choiceDTOs) {
 					  functionName = "generate_user_id_studentAnswer_choice";
-		            	String choiceId =
-		  					  jdbcTemplate.queryForObject("SELECT " + functionName + "(?, ?)", String.class,"C","H");
+						/*
+						 * String choiceId = jdbcTemplate.queryForObject("SELECT " + functionName +
+						 * "(?, ?)", String.class,"C","H");
+						 */
 		            	
 		            	StudentAnswerChoice choice = new StudentAnswerChoice();
-		            	choice.setChoiceId(choiceId);
+//		            	choice.setChoiceId(choiceId);
 		            	choice.setChoiceName(choiceDTO.getChoiceName());
 		            	choice.setCorrectChoice(choiceDTO.getCorrectChoice());
 		            	choice.setQuestion(question);

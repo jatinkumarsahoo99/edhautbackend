@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.edhaut.common.JsonResponse;
 import com.edhaut.mysql.entity.ClassName;
+import com.edhaut.mysql.entity.GroupMessageData;
 import com.edhaut.mysql.entity.Student;
 import com.edhaut.service.CommonService;
+import com.edhaut.service.GroupMessageDataService;
 
 import jakarta.validation.Valid;
 
@@ -23,6 +25,9 @@ public class CommonController {
 	
 	@Autowired
 	private CommonService commsevice;
+	
+	@Autowired
+	private GroupMessageDataService groupmsgSer;
 	
 	@ResponseStatus(value = HttpStatus.CREATED) // for status code
 	@PostMapping("/api/create-class")
@@ -55,6 +60,23 @@ public class CommonController {
 		
 		
 		return commsevice.GetAllClasses();
+		
+	}
+	@ResponseStatus(value = HttpStatus.CREATED) // for status code
+	@PostMapping("/api/post-group-msg")
+	public JsonResponse<Object> createSubmitMsg(@Valid @RequestBody GroupMessageData msg) {
+		System.out.println("Printing the user details:: "+ msg);
+		
+		JsonResponse<Object> resp  = groupmsgSer.submitGroupMsg(msg);
+	  	
+	  	return resp;
+		
+	}
+	@GetMapping("api/get-All-msg")
+	public JsonResponse<List<GroupMessageData>> getallMsg(){
+		
+		
+		return groupmsgSer.getAllMsg();
 		
 	}
 

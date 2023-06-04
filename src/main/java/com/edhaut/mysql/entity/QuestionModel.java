@@ -2,7 +2,9 @@ package com.edhaut.mysql.entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -38,11 +40,11 @@ public class QuestionModel {
 	
 
 	@Id
-	/*
-	 * @GeneratedValue(generator = "uuid")
-	 * 
-	 * @GenericGenerator(name = "uuid", strategy = "uuid2")
-	 */
+	
+	 @GeneratedValue(generator = "uuid")
+	 
+	  @GenericGenerator(name = "uuid", strategy = "uuid2")
+	 
 	@PersistenceContext(unitName = "entityManagerFactory")
 	@Column(name = "questionId")
 	private String questionId;
@@ -98,8 +100,20 @@ public class QuestionModel {
 	}
 
 
+	public String getCorrectChoiceNo() {
+		return correctChoiceNo;
+	}
+
+
+	public void setCorrectChoiceNo(String correctChoiceNo) {
+		this.correctChoiceNo = correctChoiceNo;
+	}
+
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String serialNo;
+	
+	private String correctChoiceNo;
 	
 	
 	@JsonIgnore

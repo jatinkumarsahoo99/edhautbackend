@@ -28,11 +28,11 @@ import lombok.NoArgsConstructor;
 public class QuestionOptionModel {
 	
 	@Id
-	/*
-	 * @GeneratedValue(generator = "uuid")
-	 * 
-	 * @GenericGenerator(name = "uuid", strategy = "uuid2")
-	 */
+	
+	  @GeneratedValue(generator = "uuid")
+	  
+	 @GenericGenerator(name = "uuid", strategy = "uuid2")
+	 
 	@PersistenceContext(unitName = "entityManagerFactory")
 	@Column(name = "choiceId")
 	private String choiceId;
@@ -43,7 +43,7 @@ public class QuestionOptionModel {
 	private String slNo;
 	
 	
-	@Column(name = "created_at",nullable = false , updatable = false)
+	@Column(name = "created_at")
 	@CreationTimestamp    //it will auto insert on the time of creation 
 	private Timestamp createdAt;
 	
@@ -55,6 +55,16 @@ public class QuestionOptionModel {
 
 	public void setChoiceId(String choiceId) {
 		this.choiceId = choiceId;
+	}
+
+
+	public String getSlNo() {
+		return slNo;
+	}
+
+
+	public void setSlNo(String slNo) {
+		this.slNo = slNo;
 	}
 
 

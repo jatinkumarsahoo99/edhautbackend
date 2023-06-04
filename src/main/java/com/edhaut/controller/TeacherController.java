@@ -18,6 +18,7 @@ import com.edhaut.mysql.entity.ExamClassModel;
 import com.edhaut.mysql.entity.QuestionDTO;
 import com.edhaut.mysql.entity.QuestionModel;
 import com.edhaut.mysql.entity.QuestionOptionModel;
+import com.edhaut.mysql.entity.ScheduledClass;
 import com.edhaut.mysql.entity.Student;
 import com.edhaut.mysql.entity.Teacher;
 import com.edhaut.mysql.entity.TestDTO;
@@ -55,7 +56,7 @@ public class TeacherController {
 	public JsonResponse<Object> createTeacher(@Valid @RequestBody Teacher user) {
 		System.out.println("Printing the user details:: "+ user);
 		
-		JsonResponse<Object> resp  = tescherService.createStudent(user);
+		JsonResponse<Object> resp  = tescherService.createTeacher(user);
 	  	
 	  	return resp;
 		
@@ -65,6 +66,32 @@ public class TeacherController {
 	public JsonResponse<List<ExamClassModel>> getTest( ) {
 		
 		return tescherService.getAllTest();
+		
+	}
+	
+	@GetMapping("api/teacher-profile")
+	public JsonResponse<Student> getProfileDetails(@RequestParam String userId){
+		
+		
+		/*
+		 * String functionName = "generate_user_id"; String result =
+		 * jdbcTemplate.queryForObject("SELECT " + functionName + "()", String.class);
+		 * 
+		 * System.out.print(result);
+		 */
+		 
+
+		
+		return null;
+	}
+	@ResponseStatus(value = HttpStatus.CREATED) // for status code
+	@PostMapping("/api/create-scheduled-classes")
+	public JsonResponse<Object> createScheduledClass(@Valid @RequestBody ScheduledClass classdata) {
+		System.out.println("Printing the user details:: "+ classdata);
+		
+		JsonResponse<Object> resp  = tescherService.createScheduledClass(classdata);
+	  	
+	  	return resp;
 		
 	}
 }

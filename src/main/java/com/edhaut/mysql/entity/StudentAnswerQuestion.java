@@ -3,6 +3,8 @@ package com.edhaut.mysql.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -32,11 +34,11 @@ public class StudentAnswerQuestion {
 	
 
 	@Id
-	/*
-	 * @GeneratedValue(generator = "uuid")
-	 * 
-	 * @GenericGenerator(name = "uuid", strategy = "uuid2")
-	 */
+	
+	  @GeneratedValue(generator = "uuid")
+	  
+	  @GenericGenerator(name = "uuid", strategy = "uuid2")
+	 
 	@PersistenceContext(unitName = "entityManagerFactory")
 	@Column(name = "questionId")
 	private String questionId;
