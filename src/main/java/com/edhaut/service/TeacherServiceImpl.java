@@ -4,7 +4,8 @@ import java.sql.Date;
 import java.text.ParseException;
 
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,7 +119,7 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public JsonResponse<Student> ValidateUser(String userId, String Password) {
+	public JsonResponse<Teacher> ValidateUser(String userId, String Password) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -151,12 +152,13 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public JsonResponse<List<ExamClassModel>> getAllTest() {
+	public JsonResponse<List<ExamClassModel>> getAllTest(String classId) {
 
 		 JsonResponse<List<ExamClassModel>> resp = new JsonResponse<List<ExamClassModel>>();
 		 
 		 try {
-			 List<ExamClassModel> test = (List<ExamClassModel>) testRepo.findAll();
+			 String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			 List<ExamClassModel> test = (List<ExamClassModel>) testRepo.findTestFilterByDateAndClass(classId,currentDate);
 			 resp.setCode("success");
 		    	resp.setMessage("Data Fetched Successfully");
 		    	resp.setBody(test);
@@ -207,10 +209,13 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public JsonResponse<List<ScheduledClass>> getAllClasses(Date Date)  {
+	public JsonResponse<List<ScheduledClass>> getAllClasses(String classId)  {
 		JsonResponse<List<ScheduledClass>> resp = new JsonResponse<List<ScheduledClass>>();
 		try {
-			List<ScheduledClass> classes = scheduledClassRepo.findByclassStartDate(Date) ;
+			 String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			 Date date = Date.valueOf(currentDate);
+			 System.out.println(">>>>>"+date.toString());
+			List<ScheduledClass> classes = scheduledClassRepo.findByclassStartDateWithClassId(date,classId) ;
 			resp.setCode("success");
 	    	resp.setMessage("Data Fetched Successfully");
 	    	resp.setBody(classes);
@@ -222,6 +227,12 @@ public class TeacherServiceImpl implements TeacherService {
 //	      	resp.setBody([]);
 		}
 		return resp;
+	}
+
+	@Override
+	public Teacher findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

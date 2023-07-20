@@ -141,6 +141,8 @@ public class StudentServiceImpl implements StudentService {
 			testData.setExamDuration(test.getExamDuration());
 			testData.setExamDate(test.getExamDate());
 			testData.setTestName(test.getTestName());
+			testData.setStudentId(test.getStudentId());
+			testData.setTestId(test.getTestId());
 		
 			
 			 List<AnswersheetQuestion> questionDTOs = test.getQuestions();
@@ -155,6 +157,7 @@ public class StudentServiceImpl implements StudentService {
 //				 question.setQuestionId(questionId);
 				 question.setQuestionName(questionDTO.getQuestionName());
 				 question.setSerialNo(questionDTO.getSerialNo());
+				 question.setCorrectChoiceNo(questionDTO.getCorrectChoiceNo());
 				 
 				  List<AnswerSheetChoice> choiceDTOs = questionDTO.getChoices();
 				  for (AnswerSheetChoice choiceDTO : choiceDTOs) {
@@ -224,6 +227,13 @@ public class StudentServiceImpl implements StudentService {
 		}
 		
 		return resp;
+	}
+
+
+	@Override
+	public Student findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

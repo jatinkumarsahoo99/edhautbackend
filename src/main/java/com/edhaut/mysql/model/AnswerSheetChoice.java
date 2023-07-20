@@ -2,6 +2,7 @@ package com.edhaut.mysql.model;
 
 import java.sql.Timestamp;
 
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,16 +10,33 @@ import jakarta.persistence.Column;
 
 public class AnswerSheetChoice {
 
-	private String choiceName;
+	private String choiceText;
+	private String correct;
 	
+	public String getChoiceText() {
+		return choiceText;
+	}
+
+	public void setChoiceText(String choiceText) {
+		this.choiceText = choiceText;
+	}
+
+	public String getCorrect() {
+		return correct;
+	}
+
+	public void setCorrect(String correct) {
+		this.correct = correct;
+	}
+
 	private String slNo;
 	
 	public String getChoiceName() {
-		return choiceName;
+		return choiceText;
 	}
 
 	public void setChoiceName(String choiceName) {
-		this.choiceName = choiceName;
+		this.choiceText = choiceName;
 	}
 
 	public String getSlNo() {

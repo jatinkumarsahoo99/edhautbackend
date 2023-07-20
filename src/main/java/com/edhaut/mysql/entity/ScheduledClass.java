@@ -64,6 +64,18 @@ public class ScheduledClass {
 	
 	private Date classStartDate;
 	
+	private String classNameId;
+	
+	public String getClassNameId() {
+		return classNameId;
+	}
+
+
+	public void setClassNameId(String classNameId) {
+		this.classNameId = classNameId;
+	}
+
+
 	public String getClassId() {
 		return classId;
 	}

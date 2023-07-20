@@ -63,9 +63,9 @@ public class TeacherController {
 	}
 	@ResponseStatus(value = HttpStatus.CREATED) // for status code
 	@GetMapping("/api/get-AllTest")
-	public JsonResponse<List<ExamClassModel>> getTest( ) {
+	public JsonResponse<List<ExamClassModel>> getTest( @RequestParam String classId) {
 		
-		return tescherService.getAllTest();
+		return tescherService.getAllTest(classId);
 		
 	}
 	

@@ -144,6 +144,16 @@ public class StudentAnswer {
 
 	private String examDate;
 	
+	private String studentId;
+	
+	public String getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
+	}
+
 	public String getExamDate() {
 		return examDate;
 	}

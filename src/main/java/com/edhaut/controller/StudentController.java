@@ -3,6 +3,7 @@ package com.edhaut.controller;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,7 @@ import com.edhaut.mysql.entity.Student;
 import com.edhaut.mysql.entity.StudentAnswer;
 import com.edhaut.mysql.entity.TestDTO;
 import com.edhaut.mysql.model.TestAnswerSheet;
+import com.edhaut.mysql.repository.StudentAnswerRepo;
 import com.edhaut.service.StudentService;
 import com.edhaut.service.TeacherService;
 
@@ -42,6 +44,8 @@ public class StudentController {
 	 @Autowired 
 	 private TeacherService teacherService;
 	 
+	 @Autowired 
+	  private StudentAnswerRepo studentrepo;
 	
 	@ResponseStatus(value = HttpStatus.CREATED) // for status code
 	@PostMapping("/api/create-student")
@@ -104,16 +108,102 @@ public class StudentController {
 	
 	@ResponseStatus(value = HttpStatus.CREATED) // for status code
 	@GetMapping("/api/get-allClasses")
-	public JsonResponse<List<ScheduledClass>> getAllClasses( @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") String dateString) {
-		Date date = Date.valueOf(dateString);
-		return teacherService.getAllClasses(date);
+	public JsonResponse<List<ScheduledClass>> getAllClasses(/*
+															 * @RequestParam("date") @DateTimeFormat(pattern =
+															 * "yyyy-MM-dd") String dateString,
+															 */
+			@RequestParam String classId) {
+//		Date date = Date.valueOf(dateString);
+		System.out.println("dateCheck>>>>>>>>>>>>>>>>>>"+classId.toString());
+		return teacherService.getAllClasses(classId);
 		
 		
 	}
 	
+	@ResponseStatus(value = HttpStatus.CREATED) // for status code
+	@GetMapping("/api/get-allSubmittedTest")
+	public JsonResponse<List<StudentAnswer>> getAllSubmittedTest( @RequestParam("studentId") String studentId ) {
+		JsonResponse<List<StudentAnswer>> res = new JsonResponse<List<StudentAnswer>>();
+		List<StudentAnswer> data = studentrepo.findBystudentId(studentId) ;
+		
+		if(data != null && !data.isEmpty()) {
+			res.setBody(data);
+			res.setCode("success");
+			res.setMessage("Data fetch successfully");
+			return res;
+		}else {
+			data = new ArrayList<>();
+			res.setBody(data);
+			res.setCode("failed");
+			res.setMessage("Data fetch successfully");
+			return res;
+		}
+		
+	}
 	
 	
+	@ResponseStatus(value = HttpStatus.CREATED) // for status code
+	@GetMapping("/api/get-onlytestId-allSubmittedTest")
+	public JsonResponse<List<String>> getAllSubmittedTestOnlyTestId( @RequestParam("studentId") String studentId ) {
+		JsonResponse<List<String>> res = new JsonResponse<List<String>>();
+		List<String> data = studentrepo.findBystudent(studentId) ;
+		
+		if(data != null && !data.isEmpty()) {
+			res.setBody(data);
+			res.setCode("success");
+			res.setMessage("Data fetch successfully");
+			return res;
+		}else {
+			data = new ArrayList<>();
+			res.setBody(data);
+			res.setCode("success");
+			res.setMessage("Data fetch successfully");
+			return res;
+		}
+		
+	}
 	
+	@ResponseStatus(value = HttpStatus.CREATED) // for status code
+	@GetMapping("/api/get-all-allSubmittedTest")
+	public JsonResponse<List<StudentAnswer>> getAllSubmittedTesstByStudentId( @RequestParam("studentId") String studentId ) {
+		JsonResponse<List<StudentAnswer>> res = new JsonResponse<List<StudentAnswer>>();
+		List<StudentAnswer> data = studentrepo.allSubmitedTestfindBystudent(studentId) ;
+		
+		if(data != null && !data.isEmpty()) {
+			res.setBody(data);
+			res.setCode("success");
+			res.setMessage("Data fetch successfully");
+			return res;
+		}else {
+			data = new ArrayList<>();
+			res.setBody(data);
+			res.setCode("success");
+			res.setMessage("Data fetch successfully");
+			return res;
+		}
+		
+	}
 	
+	@ResponseStatus(value = HttpStatus.CREATED) // for status code
+	@GetMapping("/api/get-SubmitedtestById")
+	public JsonResponse<List<StudentAnswer>> getSubmittedTestByTestId( @RequestParam("studentId") String studentId ,
+			@RequestParam("examId") String examId ) {
+		JsonResponse<List<StudentAnswer>> res = new JsonResponse<List<StudentAnswer>>();
+		List<StudentAnswer> data = studentrepo.findBystudentExamId(studentId,examId) ;
+		
+		if(data != null && !data.isEmpty()) {
+			res.setBody(data);
+			res.setCode("success");
+			res.setMessage("Data fetch successfully");
+			return res;
+		}else {
+			data = new ArrayList<>();
+			res.setBody(data);
+			res.setCode("success");
+			res.setMessage("Data fetch successfully");
+			return res;
+		}
+		
+	}
 
 }

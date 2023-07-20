@@ -99,6 +99,14 @@ public class TestAnswerSheet {
 	private String classId;
 	private String secureMark;
 	
+	private String studentId;
+	
+	public String getStudentId() {
+		return studentId;
+	}
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
+	}
 	private List<AnswersheetQuestion> questions;
 
 	public List<AnswersheetQuestion> getQuestions() {

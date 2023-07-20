@@ -88,7 +88,17 @@ public class StudentAnswerQuestion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String serialNo;
 	
+	String correctChoiceNo;
 	
+	
+	public String getCorrectChoiceNo() {
+		return correctChoiceNo;
+	}
+
+	public void setCorrectChoiceNo(String correctChoiceNo) {
+		this.correctChoiceNo = correctChoiceNo;
+	}
+
 	@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "answerSheetId")

@@ -4,19 +4,39 @@ import java.util.List;
 
 public class AnswersheetQuestion {
 	
-	private String questionName;
-	private String serialNo;
+	private String questionText;
+	private String slNo;
+	
+	public String getQuestionText() {
+		return questionText;
+	}
+	public void setQuestionText(String questionText) {
+		this.questionText = questionText;
+	}
+	public String getSlNo() {
+		return slNo;
+	}
+	public void setSlNo(String slNo) {
+		this.slNo = slNo;
+	}
+	String correctChoiceNo;
+	public String getCorrectChoiceNo() {
+		return correctChoiceNo;
+	}
+	public void setCorrectChoiceNo(String correctChoiceNo) {
+		this.correctChoiceNo = correctChoiceNo;
+	}
 	public String getQuestionName() {
-		return questionName;
+		return questionText;
 	}
 	public void setQuestionName(String questionName) {
-		this.questionName = questionName;
+		this.questionText = questionName;
 	}
 	public String getSerialNo() {
-		return serialNo;
+		return slNo;
 	}
 	public void setSerialNo(String serialNo) {
-		this.serialNo = serialNo;
+		this.slNo = serialNo;
 	}
 	private List<AnswerSheetChoice> choices;
 	public List<AnswerSheetChoice> getChoices() {

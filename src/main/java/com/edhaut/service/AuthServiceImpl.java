@@ -46,6 +46,8 @@ public class AuthServiceImpl implements AuthService {
 					    	student.put("email", userStudent.getEmail());
 					    	student.put("name", userStudent.getStudentName());
 					    	student.put("role", userStudent.getUserRole());
+					    	student.put("className", userStudent.getStudentClass());
+					    	student.put("classId", userStudent.getStudentClassId());
 					    	
 					    	teacher.put("userId", userTeacher.getTeacherId());
 					    	teacher.put("email", userTeacher.getEmail());
@@ -74,7 +76,8 @@ public class AuthServiceImpl implements AuthService {
 				    	student.put("email", userStudent.getEmail());
 				    	student.put("name", userStudent.getStudentName());
 				    	student.put("role", userStudent.getUserRole());
-				    	
+				    	student.put("className", userStudent.getStudentClass());
+				    	student.put("classId", userStudent.getStudentClassId());
 	                    data.add(student);
 				    	
 				    	resp.setBody(data);

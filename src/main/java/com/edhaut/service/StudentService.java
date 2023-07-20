@@ -26,5 +26,7 @@ public interface StudentService {
 	 
 	 
 	 JsonResponse<Optional<StudentAnswer> > getSubmitTest(String testId);
+	 
+	 Student findByEmail(String email);
 
 }

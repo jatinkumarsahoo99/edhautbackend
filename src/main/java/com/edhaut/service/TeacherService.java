@@ -16,18 +16,19 @@ public interface TeacherService {
 	
 	 JsonResponse<Object>  createQuestion(TestDTO test);
 	 
-	 JsonResponse<Student>  ValidateUser(String userId,String Password);
+	 JsonResponse<Teacher>  ValidateUser(String userId,String Password);
 	 
 	 JsonResponse<Object> createTeacher(Teacher user);
 	 
-	 JsonResponse<List<ExamClassModel>> getAllTest();
+	 JsonResponse<List<ExamClassModel>> getAllTest(String classId);
 	 
 	 JsonResponse<Optional<Teacher>> getTeacherProfile(String teacherId);
 	 
 	 JsonResponse<Object> createScheduledClass(ScheduledClass scheduledClass);
 	 
 	 
-	 JsonResponse<List<ScheduledClass>> getAllClasses(Date Date);
+	 JsonResponse<List<ScheduledClass>> getAllClasses(String classId);
 	 
+	 Teacher findByEmail(String email);
 
 }
